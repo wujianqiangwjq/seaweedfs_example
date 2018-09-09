@@ -1,0 +1,49 @@
+version: "2"
+services:
+    master:
+        image: seaweedfs:1
+        hostname: master
+        ports:
+            - "9333:9333"
+        volumes:
+            - "/root/masterdata:/masterdata"
+        entrypoint: /usr/bin/weed master -mdir="/masterdata" -ip=master
+        container_name: master
+        links:
+            - "volume1:volume1"
+            - "volume2:volume2"
+        networks:
+            - mynet
+    volume1:
+        image: seaweedfs:1
+        hostname: volume1
+        container_name: volume1
+        ports:
+            - "8080:8080"
+        volumes:
+            - "/root/volume1:/volume1"
+        entrypoint: /usr/bin/weed volume -dir="/volume1" -max=10 -mserver="master:9333" -ip=volume1  -port=8080 
+      #  links:
+       #     - "master:master"
+        #    - "volume2:volume2"
+        networks:
+            - mynet
+
+    volume2:
+        image: seaweedfs:1
+        hostname: volume2
+        container_name: volume2
+        ports:
+            - "8081:8081"
+        volumes:
+            - "/root/volume2:/volume2"
+        entrypoint: /usr/bin/weed volume -dir="/volume2" -max=10 -mserver="master:9333"  -ip=volume2 -port=8081 
+       # links:
+         #   - "master:master"
+        #    - "volume1:volume1"
+        networks:
+            - mynet
+
+networks:
+    mynet:
+        driver: bridge
