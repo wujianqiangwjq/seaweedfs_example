@@ -1,0 +1,8 @@
+1. 使用docker-compose分布式部署seaweedfs
+     1.1 多数据中心部署
+     1.2 一个数据中心部署
+master如果要做replication, master必须是奇数个
+master需要指定ip, 默认是127.0.0.1,如果机器部署，volume没办法访问到 ?******
+说明一下: seaweedfs:1镜像是自己build，只要有weed就可以
+
+
