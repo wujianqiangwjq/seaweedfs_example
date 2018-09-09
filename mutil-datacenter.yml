@@ -7,7 +7,7 @@ services:
             - "9333:9333"
         volumes:
             - "/root/mutil-dataCenter/node1:/masterdata"
-        entrypoint: /usr/bin/weed master -mdir="/masterdata" -ip=node1 -peers="node1:9333,node4:9334,node7:9335,node10:9336" -defaultReplication="110"
+        entrypoint: /usr/bin/weed master -mdir="/masterdata" -ip=node1  -peers="node1:9333,node4:9334,node7:9335" -defaultReplication="110"
         container_name: node1
         links:
             - "node2:node2"
@@ -21,7 +21,7 @@ services:
             - "9334:9334"
         volumes:
             - "/root/mutil-dataCenter/node4:/masterdata"
-        entrypoint: /usr/bin/weed master -mdir="/masterdata" -ip=node4 -peers="node1:9333,node4:9334,node7:9335,node10:9336" -defaultReplication="110" -port=9334
+        entrypoint: /usr/bin/weed master -mdir="/masterdata" -ip=node4  -peers="node1:9333,node4:9334,node7:9335" -defaultReplication="110" -port=9334
         container_name: node4
         links:
             - "node5:node5"
@@ -36,26 +36,11 @@ services:
             - "9335:9335"
         volumes:
             - "/root/mutil-dataCenter/node7:/masterdata"
-        entrypoint: /usr/bin/weed master -mdir="/masterdata" -ip=node7 -peers="node1:9333,node4:9334,node7:9335,node10:9336" -defaultReplication="110" -port=9335
+        entrypoint: /usr/bin/weed master -mdir="/masterdata" -ip=node7  -peers="node1:9333,node4:9334,node7:9335" -defaultReplication="110" -port=9335
         container_name: node7
         links:
             - "node8:node8"
             - "node9:node9"
-        networks:
-            - mynet
-
-    node10:
-        image: seaweedfs:1
-        hostname: node10
-        ports:
-            - "9336:9336"
-        volumes:
-            - "/root/mutil-dataCenter/node10:/masterdata"
-        entrypoint: /usr/bin/weed master -mdir="/masterdata" -ip=node10 -peers="node1:9333,node4:9334,node7:9335,node10:9336" -defaultReplication="110" -port=9336
-        container_name: node10
-        links:
-            - "node11:node11"
-            - "node12:node12"
         networks:
             - mynet
 
@@ -126,28 +111,6 @@ services:
         volumes:
             - "/root/mutil-dataCenter/node9:/volume"
         entrypoint: /usr/bin/weed volume -dir="/volume" -max=10 -mserver="node7:9335"  -ip=node9 -port=8085 -dataCenter="dc2" -rack="rack1"
-        networks:
-            - mynet
-    node11:
-        image: seaweedfs:1
-        hostname: node11
-        container_name: node11
-        ports:
-            - "8086:8086"
-        volumes:
-            - "/root/mutil-dataCenter/node11:/volume"
-        entrypoint: /usr/bin/weed volume -dir="/volume" -max=10 -mserver="node10:9336"  -ip=node11 -port=8086 -dataCenter="dc2" -rack="rack2"
-        networks:
-            - mynet
-    node12:
-        image: seaweedfs:1
-        hostname: node12
-        container_name: node12
-        ports:
-            - "8087:8087"
-        volumes:
-            - "/root/mutil-dataCenter/node11:/volume"
-        entrypoint: /usr/bin/weed volume -dir="/volume" -max=10 -mserver="node10:9336"  -ip=node12 -port=8087 -dataCenter="dc2" -rack="rack2"
         networks:
             - mynet
 networks:
